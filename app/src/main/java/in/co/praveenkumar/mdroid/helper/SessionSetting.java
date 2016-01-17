@@ -1,5 +1,6 @@
 package in.co.praveenkumar.mdroid.helper;
 
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.model.MoodleSiteInfo;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class SessionSetting {
 	private MoodleSiteInfo siteInfo;
 	public static final long NO_SITE_ID = 999;
 
-	private final String APP_SHARED_PREFS = "MDROID_PREFERENCES";
+	private final String APP_SHARED_PREFS = "MDROID_PREFERENCES";  //app shareprefs name
 	private SharedPreferences appSharedPrefs;
 	private Editor prefsEditor;
 	private String DEBUG_TAG = "MDROID_PREFERENCES";
@@ -53,12 +54,14 @@ public class SessionSetting {
 	public SessionSetting(Context context, long siteid) {
 		this.appSharedPrefs = context.getSharedPreferences(APP_SHARED_PREFS,
 				Activity.MODE_PRIVATE);
-		this.prefsEditor = appSharedPrefs.edit();
+		this.prefsEditor = appSharedPrefs.edit();  //start to editdata
 		setCurrentSiteId(siteid);
 	}
 
 	private void setCurrentValues() {
 		currentSiteId = appSharedPrefs.getLong("currentSiteId", NO_SITE_ID);
+		//Log.i("CURRENTSITEID",String.valueOf(currentSiteId));
+		Logtool.i("CURRENTSITEID",String.valueOf(currentSiteId));
 		siteInfo = MoodleSiteInfo.findById(MoodleSiteInfo.class, currentSiteId);
 
 		// If site not found. Get the 1st site in database.

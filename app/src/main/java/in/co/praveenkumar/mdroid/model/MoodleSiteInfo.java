@@ -41,6 +41,7 @@ public class MoodleSiteInfo extends SugarRecord<MoodleSiteInfo> {
 
     /**
      * Credentials to be used for login
+	 * µÇÂ¼Ö¤Êé
      */
     String loginUsername;
     String loginPassword;

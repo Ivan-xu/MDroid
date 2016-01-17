@@ -16,7 +16,7 @@ public class LaunchActivity extends Activity {
 		setContentView(R.layout.activity_launch);
 		SessionSetting session = new SessionSetting(this);
 
-		// Skip to courses if logged in
+//		 Skip to courses if logged in
 		if (session.getCurrentSiteId() != SessionSetting.NO_SITE_ID) {
 			Intent i = new Intent(this, CourseActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
