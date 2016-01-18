@@ -1,6 +1,7 @@
 package in.co.praveenkumar.mdroid.activity;
 
 import in.co.praveenkumar.R;
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.fragment.CalenderFragment;
 import in.co.praveenkumar.mdroid.fragment.ContentFragment;
 import in.co.praveenkumar.mdroid.fragment.ForumFragment;
@@ -69,27 +70,33 @@ public class CourseContentActivity extends BaseNavigationActivity {
 		public CourseContentTabsAdapter(FragmentManager fm) {
 			super(fm);
 		}
-
+/*
+      coursefragmentΩÁ√Ê—°‘Òcourse forum calender participant
+ */
 		@Override
 		public Fragment getItem(int position) {
 			switch (position) {
 			case 0:
 				// Course Content
+				Logtool.i("Track", "chooseContentfrg..");
                 ContentFragment contentFragment = new ContentFragment();
                 contentFragment.setCourseid(courseid);
 				return contentFragment;
 			case 1:
 				// Course Forum
+				Logtool.i("Track", "chooseForumFrg..");
                 ForumFragment forumFragment = new ForumFragment();
                 forumFragment.setCourseid(courseid);
 				return forumFragment;
 			case 2:
 				// Course Calendar
+				Logtool.i("Track", "chooseCalenderFrg..");
 				CalenderFragment calenderFragment = new CalenderFragment();
 				calenderFragment.setCourseid(courseid);
 				return calenderFragment;
 			case 3:
 				// Course Participants
+				Logtool.i("Track", "chooseParticipantFrg..");
                 ParticipantFragment participantFragment = new ParticipantFragment();
                 participantFragment.setCourseid(courseid);
 				return participantFragment;

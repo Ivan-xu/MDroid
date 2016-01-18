@@ -2,6 +2,7 @@ package in.co.praveenkumar.mdroid.fragment;
 
 import in.co.praveenkumar.R;
 import in.co.praveenkumar.mdroid.activity.CourseContentActivity;
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.helper.SessionSetting;
 import in.co.praveenkumar.mdroid.helper.Workaround;
 import in.co.praveenkumar.mdroid.model.MoodleCourse;
@@ -62,6 +63,8 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 		super.onCreate(savedInstanceState);
 		if (this.getArguments() != null)
 			Type = this.getArguments().getInt("coursesType", TYPE_USER_COURSES);
+		Logtool.i("Track", "gotoCourseFragment..");
+		Logtool.i("Track","coursetype="+Type);
 	}
 
 	@Override
@@ -146,16 +149,20 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 			viewHolder.shortname.setText(mCourse.getShortname());
 			viewHolder.fullname.setText(mCourse.getFullname());
 			if (mCourses.get(position).getIsFavCourse())
-				viewHolder.favIcon.setImageResource(R.drawable.icon_favorite);
+			{	viewHolder.favIcon.setImageResource(R.drawable.icon_favorite);
+			 Logtool.i("Track", "SETFAVORITE..");}
 			else
 				viewHolder.favIcon
 						.setImageResource(R.drawable.icon_favorite_outline);
+			Logtool.i("Track", "unSETFavorite..");
 
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
+					Logtool.i("Track", "gotoContentAt..");
 					Intent i = new Intent(context, CourseContentActivity.class);
 					i.putExtra("courseid", mCourses.get(position).getCourseid());
+					Logtool.i("Track", "SentCourseid..=" + mCourses.get(position).getCourseid());
 					context.startActivity(i);
 				}
 			});
@@ -168,7 +175,7 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 					if (mCourse.getIsFavCourse()) {
 						mCourse.setIsFavCourse(!mCourse.getIsFavCourse());
 						mCourse.save();
-
+						Logtool.i("Track", "unFav..");
 						// Update listview
 						mCourses.get(position).setIsFavCourse(
 								mCourse.getIsFavCourse());

@@ -65,13 +65,14 @@ public class SessionSetting {
 		siteInfo = MoodleSiteInfo.findById(MoodleSiteInfo.class, currentSiteId);
 
 		// If site not found. Get the 1st site in database.
+		//可以理解为sitinfo是否为空，即可能被清内存，如果不空则直接获取。
 		if (siteInfo == null) {
 			List<MoodleSiteInfo> sites = MoodleSiteInfo
 					.listAll(MoodleSiteInfo.class);
 			// Check if at least one site is present in database
 			if (sites.size() != 0) {
 				siteInfo = sites.get(0);
-
+				Logtool.i("siteinfo",String.valueOf(siteInfo));
 				// Save this as current site for all future references.
 				// Do NOT use setCurrentSiteId call as it causes a loop.
 				prefsEditor.putLong("currentSiteId", siteInfo.getId());
@@ -83,6 +84,9 @@ public class SessionSetting {
 		if (siteInfo != null) {
 			mUrl = siteInfo.getSiteurl();
 			token = siteInfo.getToken();
+			Logtool.i("mUrl ",mUrl);
+			Logtool.i("TOKEN ",token);
+			Logtool.i("siteinfo",String.valueOf(siteInfo));
 			currentSiteId = siteInfo.getId();
 		}
 		// No more sites found in database

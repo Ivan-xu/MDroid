@@ -2,6 +2,7 @@ package in.co.praveenkumar.mdroid.fragment;
 
 import in.co.praveenkumar.R;
 import in.co.praveenkumar.mdroid.activity.AppBrowserActivity;
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.helper.FileOpener;
 import in.co.praveenkumar.mdroid.helper.IconMap;
 import in.co.praveenkumar.mdroid.helper.SessionSetting;
@@ -242,12 +243,15 @@ public class ContentFragment extends Fragment implements OnRefreshListener {
 					MoodleModule module = listObjects.get(position).module;
 					if (module == null)
 						return;
+
 					Intent i = new Intent(context, AppBrowserActivity.class);
 
 					String modurl = module.getUrl();
 					String courseurl = session.getmUrl()
 							+ "/course/view.php?id=" + courseid;
 					modurl = (modurl == null) ? courseurl : modurl;
+					Logtool.i("Track", "modurl="+modurl);
+					Logtool.i("Track", "GotoAppBrowserActivity..");
 					i.putExtra("url", modurl);
 
 					if (!module.getModname().contentEquals("resource")) {
