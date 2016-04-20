@@ -1,5 +1,6 @@
 package in.co.praveenkumar.mdroid.task;
 
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.model.MDroidNotification;
 import in.co.praveenkumar.mdroid.model.MoodleMessage;
 import in.co.praveenkumar.mdroid.model.MoodleMessages;
@@ -91,6 +92,7 @@ public class MessageSyncTask {
 		// Moodle exception
 		if (moodleMessages.getErrorcode() != null) {
 			error = moodleMessages.getErrorcode();
+			Logtool.i("get message errorcode" +error);
 			// No additional debug info as that needs context
 			return false;
 		}
