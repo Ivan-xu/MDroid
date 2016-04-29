@@ -1,6 +1,7 @@
 package in.co.praveenkumar.mdroid.activity;
 
 import in.co.praveenkumar.R;
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.dialog.RateDialog;
 import in.co.praveenkumar.mdroid.fragment.CourseFragment;
 import in.co.praveenkumar.mdroid.helper.ApplicationClass;
@@ -15,16 +16,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
+import com.yalantis.phoenix.*;
+
+/**
+ * 获取课程
+ */
 public class CourseActivity extends BaseNavigationActivity {
 	final int DIALOG_FREQ = 4;
 	private ViewPager viewPager;
-	private static final String[] TABS = { "MY COURSES", "FAVOURITE COURSES" };
+	private static final String[] TABS = { "我的课程", "红心课程" };
 	RateDialog mRateDialog;
 	SharedPreferences mSharedPrefs;
 	SharedPreferences.Editor mSharedPrefseditor;
 	int dialogCount;
-
+    PullToRefreshView mPullToRefreshView;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,8 +43,24 @@ public class CourseActivity extends BaseNavigationActivity {
 		((ApplicationClass) getApplication())
 				.sendScreen(Param.GA_SCREEN_COURSE);
 
-		getSupportActionBar().setTitle("Moodle Home");
+		getSupportActionBar().setTitle("Moodle 首页");
 		getSupportActionBar().setIcon(R.drawable.ic_actionbar_icon);
+
+
+		//try to use pushrefresh
+		//(PullToRefreshView ) findViewById(R.id.pull_to_refresh);
+		mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
+		mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				mPullToRefreshView.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						mPullToRefreshView.setRefreshing(false);
+					}
+				}, 100);
+			}
+		});
 
 		FragmentPagerAdapter mAdapter = new CourseTabsAdapter(
 				getSupportFragmentManager());
@@ -58,11 +81,16 @@ public class CourseActivity extends BaseNavigationActivity {
 
 		if ((dialogCount) % DIALOG_FREQ == DIALOG_FREQ / 2
 				&& !mSharedPrefs.getBoolean("isRated", false)) {
+			Logtool.i("CourseAt..","mRateDialog");
 			mRateDialog = new RateDialog(this, new DialogActionListener());
-			mRateDialog.show();
+
+			//mRateDialog.show();
+
 		}
 	}
-
+	/*
+	Course 切换适配器附加几个fragment为其实际加载碎片
+	 */
 	class CourseTabsAdapter extends FragmentPagerAdapter {
 		public CourseTabsAdapter(FragmentManager fm) {
 			super(fm);

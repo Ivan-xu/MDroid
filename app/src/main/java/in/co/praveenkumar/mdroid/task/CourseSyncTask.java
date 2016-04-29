@@ -1,5 +1,8 @@
 package in.co.praveenkumar.mdroid.task;
 
+import android.util.Log;
+
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.model.MoodleCourse;
 import in.co.praveenkumar.mdroid.model.MoodleSiteInfo;
 import in.co.praveenkumar.mdroid.moodlerest.MoodleRestCourse;
@@ -93,13 +96,15 @@ public class CourseSyncTask {
 		int userid = site.getUserid();
 
 		MoodleRestCourse mrc = new MoodleRestCourse(mUrl, token);
+		// mcourse get  from moodle server
 		ArrayList<MoodleCourse> mCourses = mrc.getEnrolledCourses(userid + "");
 
 		/** Error checking **/
 		// Some network or encoding issue.
-		if (mCourses == null)
+		if (mCourses == null) {
+			Logtool.i("Track","mCourse is null return ");
 			return false;
-
+		}
 		// Some network or encoding issue.
 		if (mCourses.size() == 0)
 			return false;
@@ -108,7 +113,7 @@ public class CourseSyncTask {
 		if (mCourses.size() == 1 && mCourses.get(0).getCourseid() == 0)
 			return false;
 
-		// Add siteid and isUserCourse to all courses and update
+		// Add siteid and isUserCourse to all courses and update in DB
 		MoodleCourse course = new MoodleCourse();
 		List<MoodleCourse> dbCourses;
 		for (int i = 0; i < mCourses.size(); i++) {
@@ -120,6 +125,7 @@ public class CourseSyncTask {
 			dbCourses = MoodleCourse.find(MoodleCourse.class,
 					"courseid = ? and siteid = ?", course.getCourseid() + "",
 					course.getSiteid() + "");
+
 			if (dbCourses.size() > 0) {
 				// Set app specific fields explicitly
 				course.setId(dbCourses.get(0).getId());

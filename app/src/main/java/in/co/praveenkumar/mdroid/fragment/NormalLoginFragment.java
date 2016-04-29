@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 public class NormalLoginFragment extends Fragment {
 	EditText usernameET;
 	EditText passwordET;
@@ -63,8 +64,9 @@ public class NormalLoginFragment extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				usernameET.setText("demo");
-				passwordET.setText("demo");
-				murlET.setText("http://moodle.praveenkumar.co.in");
+				passwordET.setText("*Moodle123");
+				//murlET.setText("http://moodle.praveenkumar.co.in");
+				murlET.setText("http://192.168.199.199");
 
 				// Send a tracker event
 				((ApplicationClass) getActivity().getApplication()).sendEvent(
@@ -76,6 +78,9 @@ public class NormalLoginFragment extends Fragment {
 		return rootView;
 	}
 
+	/**
+	 iniate the layout via ov
+	 */
 	private void setUpWidgets(View rootView) {
 		usernameET = (EditText) rootView
 				.findViewById(R.id.login_normal_username);
@@ -103,6 +108,9 @@ public class NormalLoginFragment extends Fragment {
 		String password = passwordET.getText().toString();
 		String mUrl = murlET.getText().toString();
 		FormValidate fv = new FormValidate();
+		/*
+		*
+		 */
 		if (!fv.valid(username, password, mUrl)) {
 			usernameET.setError(fv.getUsernameError(username));
 			passwordET.setError(fv.getPasswordError(password));
@@ -113,6 +121,9 @@ public class NormalLoginFragment extends Fragment {
 		usernameET.setEnabled(false);
 		passwordET.setEnabled(false);
 		murlET.setEnabled(false);
+		/*
+		follows fetch data
+		 */
 		new LoginTask(username, password, mUrl, progressViews, getActivity())
 				.execute("");
 	}

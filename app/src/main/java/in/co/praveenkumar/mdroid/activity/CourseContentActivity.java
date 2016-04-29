@@ -24,8 +24,9 @@ import android.widget.Toast;
 public class CourseContentActivity extends BaseNavigationActivity {
 	private int courseid;
 	private ViewPager viewPager;
-	private static final String[] TABS = { "Contents", "Forums", "Calendar",
-			"Participants" };
+//	private static final String[] TABS = { "Contents", "Forums", "Calendar",
+//		"Participants" };
+	private static String[] TABS = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,16 @@ public class CourseContentActivity extends BaseNavigationActivity {
 		setUpDrawer();
 
 		// Send a tracker
-		((ApplicationClass) getApplication())
+				((ApplicationClass) getApplication())
 				.sendScreen(Param.GA_SCREEN_CONTENT);
 
 		Bundle extras = getIntent().getExtras();
 		courseid = extras.getInt("courseid");
+		/**
+		 * 修改课程内容标签--国际化
+		 */
+		TABS = new String[]{ getString(R.string.coursecontent_tab_contents), getString(R.string.coursecontent_tab_forums),
+				getString(R.string.coursecontent_tab_calendar), getString(R.string.coursecontent_tab_participants) };
 
 		// Get course details
 		SessionSetting session = new SessionSetting(this);
@@ -70,35 +76,39 @@ public class CourseContentActivity extends BaseNavigationActivity {
 		public CourseContentTabsAdapter(FragmentManager fm) {
 			super(fm);
 		}
-/*
-      coursefragment界面选择course forum calender participant
- */
+	/*
+		  courseFragmentcourse forum calender participant
+	 */
 		@Override
 		public Fragment getItem(int position) {
 			switch (position) {
 			case 0:
 				// Course Content
-				Logtool.i("Track", "chooseContentfrg..");
                 ContentFragment contentFragment = new ContentFragment();
-                contentFragment.setCourseid(courseid);
+                contentFragment.setCourseid(courseid);//trans course id
+				//Logtool.i("Track", "chooseContentfrg..gotoCONTENTfrg..");
+
 				return contentFragment;
 			case 1:
 				// Course Forum
-				Logtool.i("Track", "chooseForumFrg..");
+
                 ForumFragment forumFragment = new ForumFragment();
-                forumFragment.setCourseid(courseid);
+                forumFragment.setCourseid(courseid);//
+				//Logtool.i("Track", "chooseForumFrg..");
 				return forumFragment;
 			case 2:
 				// Course Calendar
-				Logtool.i("Track", "chooseCalenderFrg..");
+
 				CalenderFragment calenderFragment = new CalenderFragment();
 				calenderFragment.setCourseid(courseid);
+				//Logtool.i("Track", "chooseCalenderFrg..");
 				return calenderFragment;
 			case 3:
 				// Course Participants
-				Logtool.i("Track", "chooseParticipantFrg..");
+
                 ParticipantFragment participantFragment = new ParticipantFragment();
                 participantFragment.setCourseid(courseid);
+				//Logtool.i("Track", "chooseParticipantFrg..");
 				return participantFragment;
 			}
 			return null;

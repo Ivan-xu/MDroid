@@ -42,6 +42,35 @@ public class Logtool {
 
         }
     }
+    public static void i (String tag,String msg1,int msg2){
+        if (LEVEL <=INFO ){
+            String msg = msg1+String.valueOf(msg2);
+            Log.i(tag,msg);
+
+        }
+    }
+    public static void i (String msg1,int msg2){
+        if (LEVEL <=INFO ){
+            String msg = msg1+" = "+String.valueOf(msg2);
+            Log.i("Track",msg);
+
+        }
+    }
+    public static void i (String msg1,Long msg2){
+        if (LEVEL <=INFO ){
+            String msg = msg1+" = "+String.valueOf(msg2);
+            Log.i("Track",msg);
+
+        }
+    }
+    public static void i ( String  msg){
+        if (LEVEL <=INFO ){
+            String tag = "Track";
+            Log.i(tag, msg);
+
+        }
+    }
+
 
     public static void w (String tag , String  msg){
         if (LEVEL <=WARN ){

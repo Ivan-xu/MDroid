@@ -1,5 +1,6 @@
 package in.co.praveenkumar.mdroid.task;
 
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.model.MDroidNotification;
 import in.co.praveenkumar.mdroid.model.MoodleCourse;
 import in.co.praveenkumar.mdroid.model.MoodleModule;
@@ -185,11 +186,11 @@ public class CourseContentSyncTask {
 
 	/**
 	 * 
-	 * @param modulecontents
+	 * @param contents
 	 *            ArrayList of modulecontent to be synced
 	 * @param moduledbid
 	 *            Database id of the module to which these contents belong
-	 * @param moduleidid
+	 * @param moduleid
 	 *            Moodle moduleid of the module to which these contents belong
 	 * @param sectionid
 	 *            Moodle sectionid of the section to which these modules belong
@@ -244,6 +245,7 @@ public class CourseContentSyncTask {
 		// Add modules to sections
 		List<MoodleModule> dbModules;
 		List<MoodleModuleContent> dbContents;
+		Logtool.i("Track","getCourseContents ");
 		for (int i = 0; i < sections.size(); i++) {
 			dbModules = MoodleModule.find(MoodleModule.class, "parentid = ?",
 					sections.get(i).getId() + "");
@@ -256,7 +258,7 @@ public class CourseContentSyncTask {
 				dbModules.get(j).setContents(dbContents);
 			}
 
-			sections.get(i).setModules(dbModules);
+            sections.get(i).setModules(dbModules);
 		}
 
 		return new ArrayList<MoodleSection>(sections);

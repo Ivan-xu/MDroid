@@ -24,6 +24,9 @@ public class SessionSetting {
 	private String token;
 	private String mUrl;
 	private long currentSiteId;
+	/*
+	moodlesiteinfo store all the info of site and the api returns what we need
+	 */
 	private MoodleSiteInfo siteInfo;
 	public static final long NO_SITE_ID = 999;
 
@@ -60,33 +63,31 @@ public class SessionSetting {
 
 	private void setCurrentValues() {
 		currentSiteId = appSharedPrefs.getLong("currentSiteId", NO_SITE_ID);
-		//Log.i("CURRENTSITEID",String.valueOf(currentSiteId));
-		Logtool.i("CURRENTSITEID",String.valueOf(currentSiteId));
+		//Logtool.i("setCurrentValues currentsiteID",currentSiteId);
+		//read data from database
 		siteInfo = MoodleSiteInfo.findById(MoodleSiteInfo.class, currentSiteId);
 
 		// If site not found. Get the 1st site in database.
-		//可以理解为sitinfo是否为空，即可能被清内存，如果不空则直接获取。
+		//site not found in sharepref
 		if (siteInfo == null) {
 			List<MoodleSiteInfo> sites = MoodleSiteInfo
 					.listAll(MoodleSiteInfo.class);
 			// Check if at least one site is present in database
 			if (sites.size() != 0) {
 				siteInfo = sites.get(0);
-				Logtool.i("siteinfo",String.valueOf(siteInfo));
+
 				// Save this as current site for all future references.
 				// Do NOT use setCurrentSiteId call as it causes a loop.
 				prefsEditor.putLong("currentSiteId", siteInfo.getId());
 				prefsEditor.commit();
 			}
+			Logtool.i("siteInfo in database is null");
 		}
 
 		// set other fields if siteInfo was set
 		if (siteInfo != null) {
 			mUrl = siteInfo.getSiteurl();
 			token = siteInfo.getToken();
-			Logtool.i("mUrl ",mUrl);
-			Logtool.i("TOKEN ",token);
-			Logtool.i("siteinfo",String.valueOf(siteInfo));
 			currentSiteId = siteInfo.getId();
 		}
 		// No more sites found in database

@@ -236,6 +236,9 @@ public class ContentFragment extends Fragment implements OnRefreshListener {
 
 				break;
 			}
+			/**
+			 * contentfragment 中Section的绑定监听
+			 */
 			convertView.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -245,15 +248,15 @@ public class ContentFragment extends Fragment implements OnRefreshListener {
 						return;
 
 					Intent i = new Intent(context, AppBrowserActivity.class);
-
+				// module url为空默认跳转到课程
 					String modurl = module.getUrl();
 					String courseurl = session.getmUrl()
 							+ "/course/view.php?id=" + courseid;
 					modurl = (modurl == null) ? courseurl : modurl;
-					Logtool.i("Track", "modurl="+modurl);
-					Logtool.i("Track", "GotoAppBrowserActivity..");
-					i.putExtra("url", modurl);
 
+
+					i.putExtra("url", modurl);
+					//非下载资源启动浏览器
 					if (!module.getModname().contentEquals("resource")) {
 						context.startActivity(i);
 						return;

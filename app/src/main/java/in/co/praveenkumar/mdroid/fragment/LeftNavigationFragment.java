@@ -10,6 +10,7 @@ import in.co.praveenkumar.mdroid.activity.LoginActivity;
 import in.co.praveenkumar.mdroid.activity.MessagingActivity;
 import in.co.praveenkumar.mdroid.activity.NotificationActivity;
 import in.co.praveenkumar.mdroid.activity.SettingsActivity;
+import in.co.praveenkumar.mdroid.dialog.LogoutDialog;
 import in.co.praveenkumar.mdroid.helper.AppInterface.DrawerStateInterface;
 import in.co.praveenkumar.mdroid.helper.ImageDecoder;
 import in.co.praveenkumar.mdroid.helper.SessionSetting;
@@ -22,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,6 +39,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * 左侧边缘滑动导航Fragment
+ */
 @SuppressLint("InlinedApi")
 public class LeftNavigationFragment extends Fragment {
 	DrawerStateInterface drawerState;
@@ -46,10 +51,15 @@ public class LeftNavigationFragment extends Fragment {
 	List<MoodleSiteInfo> sites;
 	SessionSetting session;
 
-	String[] moodleMenuItems = new String[] { "Courses", "Messaging",
-			"Contacts", "Calender", "Forums", "Notifications" };
-	String[] appMenuItems = new String[] { "Request features", "Settings",
-			"Add account" };
+//	String[] moodleMenuItems = new String[] { "Courses", "Messaging",
+//			"Contacts", "Calender", "Forums", "Notifications" };
+    String[] moodleMenuItems =null;
+	String[] appMenuItems = null;
+	/**
+	 * 这里出错
+	 */
+//	Resources resources = getResources();
+//	String app_menuitem_log = resources.getString(R.string.app_menuitem_logout);
 
 	int[] moodleMenuIcons = new int[] { R.drawable.icon_school_greyscale,
 			R.drawable.icon_message_greyscale,
@@ -67,7 +77,15 @@ public class LeftNavigationFragment extends Fragment {
 				container, false);
 		navListView = (ListView) rootView.findViewById(R.id.left_nav_list);
 		this.context = getActivity();
-
+        /**
+         * 修改菜单界面--国际化
+         */
+		 appMenuItems = new String[] {
+				getString(R.string.app_menuitem_settings),
+				getString(R.string.app_menuitem_logout)};
+         moodleMenuItems = new String[] { getString(R.string.mod_menu_item_course), getString(R.string.mod_menu_item_message),
+                 getString(R.string.mod_menu_item_contacts), getString(R.string.mod_menu_item_calender),
+                 getString(R.string.mod_menu_item_forums), getString(R.string.mod_menu_item_notifications)};
 		// Get sites info
 		session = new SessionSetting(getActivity());
 		sites = MoodleSiteInfo.listAll(MoodleSiteInfo.class);
@@ -88,6 +106,7 @@ public class LeftNavigationFragment extends Fragment {
 							| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					context.startActivity(i);
 					break;
+				//size.sizes.列举数据库中记录的moodle站点数
 				case LeftNavListAdapter.TYPE_MOODLE_MENUITEM:
 					switch (position - sites.size() - 1) {
 					case 0:
@@ -120,18 +139,22 @@ public class LeftNavigationFragment extends Fragment {
 				case LeftNavListAdapter.TYPE_APP_MENUITEM:
 					switch (position - sites.size() - moodleMenuItems.length
 							- 2) {
+//					case 0:
+//						context.startActivity(new Intent(context,
+//								DonationActivity.class));
+//						break;
 					case 0:
-						context.startActivity(new Intent(context,
-								DonationActivity.class));
-						break;
-					case 1:
 						context.startActivity(new Intent(context,
 								SettingsActivity.class));
 						break;
-					case 2:
-						Intent j = new Intent(context, LoginActivity.class);
-						j.putExtra("explicitCall", true);
-						context.startActivity(j);
+					case 1:
+						//修改为注销当前账号
+//						Intent j = new Intent(context, LoginActivity.class);
+//						j.putExtra("explicitCall", true);
+//						context.startActivity(j);
+						LogoutDialog lod = new LogoutDialog(context,
+								new SessionSetting(context).getCurrentSiteId());
+						lod.show();
 						break;
 					}
 					break;
@@ -171,6 +194,11 @@ public class LeftNavigationFragment extends Fragment {
 			return TYPE_COUNT;
 		}
 
+		/**
+		 * 判断返回Item类型 站点 acitivity 魔灯项目
+		 * @param position
+		 * @return
+		 */
 		@Override
 		public int getItemViewType(int position) {
 			if (position == sites.size()

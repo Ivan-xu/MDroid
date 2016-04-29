@@ -10,7 +10,7 @@ import android.os.Bundle;
 
 public class LaunchActivity extends Activity {
     /*
-    app 启动入口activity
+    app activity
      */
 	@SuppressLint("InlinedApi")
 	@Override
@@ -20,7 +20,6 @@ public class LaunchActivity extends Activity {
 		SessionSetting session = new SessionSetting(this);
 
 //		 Skip to courses if logged in
-		//已登录 直接跳转到courese activity
 		if (session.getCurrentSiteId() != SessionSetting.NO_SITE_ID) {
 			Logtool.i("currentsiteID",String.valueOf(session.getCurrentSiteId()));
 			Logtool.i("Track","gotoCourseAt..");

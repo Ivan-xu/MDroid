@@ -30,6 +30,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/*
+ */
 public class CourseFragment extends Fragment implements OnRefreshListener {
 	/**
 	 * List all courses in Moodle site
@@ -64,7 +66,7 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 		if (this.getArguments() != null)
 			Type = this.getArguments().getInt("coursesType", TYPE_USER_COURSES);
 		Logtool.i("Track", "gotoCourseFragment..");
-		Logtool.i("Track","coursetype="+Type);
+
 	}
 
 	@Override
@@ -76,7 +78,6 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 
 		// Get all courses of this site
 		session = new SessionSetting(getActivity());
-
 		if (Type == TYPE_USER_COURSES)
 			mCourses = MoodleCourse.find(MoodleCourse.class,
 					"siteid = ? and is_user_course = ?",
@@ -88,6 +89,7 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 		else
 			mCourses = MoodleCourse.find(MoodleCourse.class, "siteid = ?",
 					session.getCurrentSiteId() + "");
+
 
 		courseEmptyLayout = (LinearLayout) rootView
 				.findViewById(R.id.course_empty_layout);
@@ -146,23 +148,26 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 
 			// Assign values
 			final MoodleCourse mCourse = mCourses.get(position);
+		//	viewHolder.shortname.setText("Mdroid test");
 			viewHolder.shortname.setText(mCourse.getShortname());
 			viewHolder.fullname.setText(mCourse.getFullname());
 			if (mCourses.get(position).getIsFavCourse())
 			{	viewHolder.favIcon.setImageResource(R.drawable.icon_favorite);
-			 Logtool.i("Track", "SETFAVORITE..");}
+			// Logtool.i("Track", "SETFAVORITE..");
+			}
 			else
 				viewHolder.favIcon
 						.setImageResource(R.drawable.icon_favorite_outline);
-			Logtool.i("Track", "unSETFavorite..");
+		//	Logtool.i("Track", "unSETFavorite..");
 
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					Logtool.i("Track", "gotoContentAt..");
+
 					Intent i = new Intent(context, CourseContentActivity.class);
 					i.putExtra("courseid", mCourses.get(position).getCourseid());
 					Logtool.i("Track", "SentCourseid..=" + mCourses.get(position).getCourseid());
+					Logtool.i("Track", "gotoCourseContentAt..");
 					context.startActivity(i);
 				}
 			});
@@ -175,7 +180,7 @@ public class CourseFragment extends Fragment implements OnRefreshListener {
 					if (mCourse.getIsFavCourse()) {
 						mCourse.setIsFavCourse(!mCourse.getIsFavCourse());
 						mCourse.save();
-						Logtool.i("Track", "unFav..");
+					//	Logtool.i("Track", "unFav..");
 						// Update listview
 						mCourses.get(position).setIsFavCourse(
 								mCourse.getIsFavCourse());

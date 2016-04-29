@@ -3,6 +3,7 @@ package in.co.praveenkumar.mdroid.task;
 import in.co.praveenkumar.R;
 import in.co.praveenkumar.mdroid.activity.CourseActivity;
 import in.co.praveenkumar.mdroid.activity.WebservicesoffActivity;
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.helper.SessionSetting;
 import in.co.praveenkumar.mdroid.model.MoodleSiteInfo;
 import in.co.praveenkumar.mdroid.model.MoodleToken;
@@ -75,6 +76,10 @@ public class LoginTask extends AsyncTask<String, String, Boolean> {
 		session = new SessionSetting(context);
 	}
 
+
+	/**
+	 * 同步任务执行前
+	 */
 	@Override
 	protected void onPreExecute() {
 		progressViews.loginButton.setText(context
@@ -96,6 +101,11 @@ public class LoginTask extends AsyncTask<String, String, Boolean> {
 		progressViews.progressText.setText(progress);
 	}
 
+	/**
+	 * ��ִ̨�� �������Ҫ������
+	 * @param params
+	 * @return
+	 */
 	@Override
 	protected Boolean doInBackground(String... params) {
 
@@ -191,9 +201,10 @@ public class LoginTask extends AsyncTask<String, String, Boolean> {
 		siteInfo.setLoginUsername(username);
         siteInfo.setLoginPassword(password);
         siteInfo.setToken(token);
+		// save Obj to database
 		siteInfo.save();
 		session.setCurrentSiteId(siteInfo.getId());
-
+		Logtool.i("CurrentSiteID", session.getCurrentSiteId());
 		publishProgress("\n" + context.getString(R.string.login_prog_welcome)
 				+ " " + siteInfo.getFullname() + "!\n");
 
@@ -237,9 +248,11 @@ public class LoginTask extends AsyncTask<String, String, Boolean> {
 		ContactSyncTask cst = new ContactSyncTask(mUrl, token, siteInfo.getId());
 
 		publishProgress(context.getString(R.string.login_prog_sync_message));
+		Logtool.i("Syncing message siteid=",siteInfo.getId());
 		Boolean messageSync = mst.syncMessages(siteInfo.getUserid());
 
 		publishProgress(context.getString(R.string.login_prog_sync_contact));
+		Logtool.i("Syncing contacts");
 		Boolean contactSync = cst.syncAllContacts();
 
 		// Success on user's course sync is what matters

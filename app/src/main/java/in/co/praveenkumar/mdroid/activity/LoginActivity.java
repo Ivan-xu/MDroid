@@ -14,6 +14,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+/*
+         login
+ */
 public class LoginActivity extends FragmentActivity {
 	LoginFragmentAdapter mAdapter;
 	ViewPager mPager;

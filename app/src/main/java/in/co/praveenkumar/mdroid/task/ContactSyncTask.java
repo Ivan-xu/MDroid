@@ -1,5 +1,6 @@
 package in.co.praveenkumar.mdroid.task;
 
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.model.MDroidNotification;
 import in.co.praveenkumar.mdroid.model.MoodleContact;
 import in.co.praveenkumar.mdroid.model.MoodleContacts;
@@ -78,12 +79,14 @@ public class ContactSyncTask {
 		// Some network or encoding issue.
 		if (mContacts == null) {
 			error = "Network issue!";
+
 			return false;
 		}
 
 		// Moodle exception
 		if (mContacts.getErrorcode() != null) {
 			error = mContacts.getErrorcode();
+			Logtool.i("get contact error and errorcode= "+error);
 			// No additional debug info as that needs context
 			return false;
 		}

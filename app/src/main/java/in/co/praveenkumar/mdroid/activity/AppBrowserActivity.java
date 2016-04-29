@@ -28,7 +28,7 @@ public class AppBrowserActivity extends BaseNavigationActivity {
     MoodleSiteInfo mSiteInfo;
 	WebView mBrowser;
 	String DEFAULT_URL = "http://mdroid.praveenkumar.co.in";
-	String DEFAULT_TITLE = "MDroid 浏览器";
+	String DEFAULT_TITLE = "MDroid";
     int loginAttempts = 0;
 
 	@Override
@@ -43,7 +43,7 @@ public class AppBrowserActivity extends BaseNavigationActivity {
 
 
         // Setup title and url
-        //获得网站的标题和链接url
+
         String url = DEFAULT_URL;
 		String title = DEFAULT_TITLE;
         try {

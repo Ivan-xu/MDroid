@@ -37,7 +37,9 @@ public class MoodleCourse extends SugarRecord<MoodleCourse> {
 	String format;
 
 	@SerializedName("showgrades")
-	int showgrades;
+	boolean showgrades;
+
+	//此处alter to adapt moodle29
 
 	@SerializedName("newsitems")
 	int newsitems;
@@ -76,8 +78,8 @@ public class MoodleCourse extends SugarRecord<MoodleCourse> {
 	int timemodified;
 
 	@SerializedName("enablecompletion")
-	int enablecompletion;
-
+	boolean enablecompletion;
+//alter in to boolean
 	@SerializedName("completionnotify")
 	int completionnotify;
 
@@ -183,7 +185,7 @@ public class MoodleCourse extends SugarRecord<MoodleCourse> {
 	 * 
 	 * @return
 	 */
-	public int getShowgrades() {
+	public boolean getShowgrades() {
 		return showgrades;
 	}
 
@@ -302,7 +304,7 @@ public class MoodleCourse extends SugarRecord<MoodleCourse> {
 	 * 
 	 * @return
 	 */
-	public int getEnablecompletion() {
+	public boolean getEnablecompletion() {
 		return enablecompletion;
 	}
 

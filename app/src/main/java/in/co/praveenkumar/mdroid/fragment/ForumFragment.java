@@ -2,6 +2,7 @@ package in.co.praveenkumar.mdroid.fragment;
 
 import in.co.praveenkumar.R;
 import in.co.praveenkumar.mdroid.activity.DiscussionActivity;
+import in.co.praveenkumar.mdroid.dialog.Logtool;
 import in.co.praveenkumar.mdroid.helper.SessionSetting;
 import in.co.praveenkumar.mdroid.helper.TimeFormat;
 import in.co.praveenkumar.mdroid.helper.Workaround;
@@ -130,10 +131,12 @@ public class ForumFragment extends Fragment implements OnRefreshListener {
 			viewHolder.forumtime.setText(TimeFormat.getNiceRelativeTime(mForums
 					.get(position).getTimemodified()));
 			String intro = mForums.get(position).getIntro();
+			Logtool.i("Track","intro=?"+intro);
 			if (intro == null)
 				intro = "";
 			else
 				intro = Html.fromHtml(intro).toString().trim();
+			Logtool.i("Track","intro=?"+intro);
 			viewHolder.forumdesc.setText(intro);
 
 			convertView.setOnClickListener(new OnClickListener() {

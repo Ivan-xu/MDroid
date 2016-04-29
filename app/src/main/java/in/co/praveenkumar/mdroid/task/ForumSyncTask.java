@@ -86,7 +86,6 @@ public class ForumSyncTask {
 	public Boolean syncForums(ArrayList<String> courseids) {
 		MoodleRestForum mrf = new MoodleRestForum(mUrl, token);
 		ArrayList<MoodleForum> mForums = mrf.getForums(courseids);
-
 		/** Error checking **/
 		// Some network or encoding issue.
 		if (mForums == null) {
